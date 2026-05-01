@@ -277,27 +277,7 @@ async function fetchSource(source) {
 }
 
 export async function loadCatalog() {
-  // First try to load from external sources
-  for (const source of DATA_SOURCES) {
-    try {
-      const data = await fetchSource(source);
-      const items = Array.isArray(data)
-        ? data
-        : Array.isArray(data.organic_results)
-          ? data.organic_results
-          : Array.isArray(data.products)
-            ? data.products
-            : [];
-
-      if (items.length) {
-        return items.map(normalizeProduct);
-      }
-    } catch {
-      continue;
-    }
-  }
-
-  // Fallback to embedded data for GitHub Pages compatibility
+  // Use embedded product data directly for GitHub Pages compatibility
   return EMBEDDED_PRODUCTS.map(normalizeProduct);
 }
 
